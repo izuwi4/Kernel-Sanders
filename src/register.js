@@ -1,8 +1,10 @@
-require('dotenv').config();
-const fs = require('fs');
-const path = require('path');
+require('dotenv').config();//import the enviornment variables
+const fs = require('fs');///node's file system
+const path = require('path');//nodes path system (dirs)
 const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v10');
+
+
 
 const token = process.env.BOT_TOKEN;
 const clientId = process.env.CLIENT_ID;
