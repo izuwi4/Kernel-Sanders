@@ -1,5 +1,5 @@
 /**************************************************************************
-* kernel sanders is a bot for a dsicord server i and sone friends are in. *
+* kernel sanders is a bot for a dsicord server i and some friends are in. *
 * he is here to facilitate the at times niche rules of the server.        *
 **************************************************************************/ 
 //just ahelpful note, when the term "guild" is used it usually means a discord server
