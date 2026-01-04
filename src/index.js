@@ -2,7 +2,7 @@
 * kernel sanders is a bot for a dsicord server i and some friends are in. *
 * he is here to facilitate the at times niche rules of the server.        *
 **************************************************************************/ 
-//just ahelpful note, when the term "guild" is used it usually means a discord server
+//just a helpful note, when the term "guild" is used it usually means a discord server
 
 
 require('dotenv').config();//loads in the enviornment variable(s)
@@ -25,6 +25,7 @@ const client = new Client({
 client.commands = new Collection();
 
 //Load slash commands
+
 //the dir with all of the slash commands
 const commandsPath = path.join(__dirname, 'slash-commands');
 //reads the contents of the directory and adds each ending with ".js" to an array
@@ -36,14 +37,14 @@ for (const file of commandFiles) { //loop through the array of slash command fil
     const command = require(filePath); //import the file
     try{
         client.commands.set(command.data.name, command); //adds the command to the collection
-    }catch(err){
-        console.log(err)
-        console.log(command)
+        console.log(`command added: ${command.data.name}`); //print to clarify that is has been added
+    }catch(err){//if something went wrong
+        console.log(err)//log the error
+        console.log(command)//log the command that failed to load
     }
-    console.log(`command added: ${command.data.name}`); //print to clarify that is has been added
 }
 
-// Load events (see above for lines 38-43)
+// Load events (see above)
 const eventsPath = path.join(__dirname, 'react-events');
 const eventFiles = fs.readdirSync(eventsPath).filter(file => file.endsWith('.js'));
 
@@ -63,9 +64,7 @@ for (const file of eventFiles) {
 client.on('interactionCreate', async interaction => {
 
     if (interaction.isChatInputCommand()){//if it is a slash command
-
         const command = client.commands.get(interaction.commandName);//get the command from the bot
-
         if (command) {//if the bot recognises the command
             try {
                 await command.execute(interaction); //attempts to execute the interaction
@@ -138,4 +137,4 @@ client.login(process.env.BOT_TOKEN);//log into the bot
 ⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠋⣠⠘⠀⠀⢹⣿⣶⣶⠀⠀⠀⠀⠀⠀
 ⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠋⠀⢺⣿⠀⠀⠀⠘⣿⣿⡟⠀⠀⠀⠀⠀⠀
 ⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠋⠀⠀⠀⠀⠁⠀⠀⠀⠀⠻⡟⠃⠀⠀⠀⠀⠀⠀
-⠀⠛⠛⠛⠛⠛⠛⠛⠛⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀*/
+⠀⠛⠛⠛⠛⠛⠛⠛⠛⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀               */

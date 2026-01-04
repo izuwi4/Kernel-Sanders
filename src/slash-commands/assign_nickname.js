@@ -1,5 +1,8 @@
-const { SlashCommandBuilder } = require('discord.js');
-
+//TODO make the replies only last 5 seconds
+const { SlashCommandBuilder, Role } = require('discord.js')
+const ENUMN = {
+	EPHEMIRAL: 64 //temporary message only visible to user
+}
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('assign_nickname') //name of the command
@@ -10,21 +13,35 @@ module.exports = {
                 .setRequired(true)),//must be put in
     
     async execute(interaction) {//what is actually going ot be done
-		const nickname = interaction.options.getString('nickname');//get the reveived string
-		role=process.env.STANDARD_ROLE
+		const nickname = interaction.options.getString('nickname')//get the received string
+		// const user = interaction.user //the user who called teh command
+		roleToAssign=process.env.STANDARD_ROLE//the role to assign from the env
+		successfullyExecuted = true //track if both tries succeeded
 		try {
-			await interaction.member.setNickname(nickname);//change the users nickname to the one provied
-			await member.roles.add(role);//assign the user the standard role
-			await interaction.reply({ //reply to he message prompting the command
-				content: `Added the ${role.name} role!`,//what will be said
-				ephemeral: true //make the message temporary
-			})
+			await interaction.member.setNickname(nickname)//change the users nickname to the one provied
 		} catch (error) {//if the name could not be changed
-			console.error(error);//log the error
+			console.error(error)//log the error
 			await interaction.reply({ //reply to the message prompting the command
-				content: 'Failed to change your nickname. Make sure I have the "Manage Nicknames" permission.', //what will be said
-				ephemeral: true //temporary message
-			});
+				content: 'Failed to change your nickname. Make sure I have the "GuildMembers" permission.', //what will be said
+				flags: ENUMN.EPHEMIRAL //flags as ephemeral
+			})
+			successfullyExecuted = false //the role was not sucessfully assigned
+
+		} try {
+			await interaction.member.edit({roles: roleToAssign})//assign the user the standard role
+		} catch (error) { //if the name could not be changed
+			console.error(error) //log the error
+			await interaction.reply({ //reply to the message prompting the command
+				content: 'Failed to change your role. Make sure I have the "GuildMembers" permission.', //what will be said
+				flags: ENUMN.EPHEMIRAL //flags as ephemeral
+			})
+			successfullyExecuted = false //the role was not sucessfully assigned
+		}
+		if(successfullyExecuted){ //if both alterations were executed
+			await interaction.reply({ //reply to he message prompting the command
+				content: `success!`,//what will be said
+				flags: ENUMN.EPHEMIRAL //flags as ephemeral
+			})
 		}
 	}
-};
+}
