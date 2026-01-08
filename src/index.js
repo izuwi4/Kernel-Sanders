@@ -9,8 +9,9 @@ require('dotenv').config();//loads in the enviornment variable(s)
 const { Client, IntentsBitField, Collection } = require("discord.js");//loads in the library for discord
 const fs = require('fs'); //node's file system library
 const path = require('path'); //node's library fo directories (paths)
-const { execPath } = require('process');
-
+const ENUMN = {
+	EPHEMIRAL: 64 //only visible to user
+}
 //create a client object for the bot
 const client = new Client({ 
     intents: [//list of permissions
@@ -69,10 +70,10 @@ client.on('interactionCreate', async interaction => {
             try {
                 await command.execute(interaction); //attempts to execute the interaction
             } catch (error) { //if it did not execute correctly
-                console.error(error);//log the error
+                console.error(`\n\n\n\n\nerror\n\n\n\n\n`);//log the error
 
                 //reply to the message telling the user there was an error
-                await interaction.reply({ content: 'There was an error executing this command!', ephemeral: true });
+                await interaction.reply({ content: 'There was an error executing this command!', flags: ENUMN.EPHEMIRAL });
             }
         }else{//if the bot does not recognise the command
             console.error(`No command matching ${interaction.commandName} was found.`);//raise an error
