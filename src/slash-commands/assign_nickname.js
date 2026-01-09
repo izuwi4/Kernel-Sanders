@@ -18,16 +18,15 @@ module.exports = {
 
 		//fetches a role object with the given id for the default role from the guilds cache
 		roleToApply = await interaction.guild.roles.fetch(process.env.STANDARD_ROLE) 
-			if (roleToApply){//if the standard role id is valid
+			if (roleToApply.name != undefined){//if the standard role id is valid
 			response = ''//what will be returned at the end
 			roleToAssign=process.env.STANDARD_ROLE//the role to assign from the env
 			successfullyExecuted = true //track if both tries succeeded
 				
 			try {
-				await interaction.member.setNickname(nickname) //set the nickname to the given string
+				await interaction.member.setNickname(nickname) //set the nickname to the given string				
 
-				
-				roleToApply = await interaction.guild.roles.fetch(process.env.STANDARD_ROLE) 
+				roleToApply = await interaction.guild.roles.fetch(process.env.STANDARD_ROLE) //retreive the role as an object via the id from the guild
 				await interaction.member.roles.add(roleToApply)//add the default role to them
 			} catch (error) { //if the name and role could not be changed
 				console.error(error) //log the error
